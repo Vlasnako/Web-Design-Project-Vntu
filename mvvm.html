@@ -15,5 +15,60 @@
         <a href="mvi.html">MVI</a>
         <a href="microservices.html">Microservices</a>
       </div>
+      <div>
+        <h1>Архітектура MVVM (Model-View-ViewModel)</h1>
+        <p>Архітектура MVVM (Model-View-ViewModel) - це шаблон проектування, який розділяє бізнес-логіку від інтерфейсу користувача. Це робиться для окремого управління різними аспектами додатка.</p>
+        <h2>Структура MVVM</h2>
+        <ul>
+            <li><strong>Модель (Model):</strong> Модель представляє структуру даних. Вона відповідає за збереження, відновлення та обробку даних для додатка.</li>
+            <li><strong>Представлення (View):</strong> Представлення відображає дані, тобто візуалізує модель даних для користувача.</li>
+            <li><strong>ViewModel:</strong> ViewModel відповідає за експонування даних, які можуть бути прив'язані до представлення, та за обробку дій користувача.</li>
+        </ul>
+        <h2>Переваги MVVM</h2>
+        <ul>
+            <li><strong>Поділ відповідальності:</strong> Кожен компонент в архітектурі MVVM має свою власну відповідальність, що спрощує управління додатком.</li>
+            <li><strong>Полегшена підтримка:</strong> Оскільки різні частини додатка розроблені незалежно одна від одної, це полегшує підтримку та оновлення додатка.</li>
+            <li><strong>Гнучкість:</strong> Завдяки розділенню на модель, представлення та ViewModel, розробники можуть працювати паралельно на різних частинах додатка без взаємного впливу.</li>
+        </ul>
+      </div>
+      <div>
+        <pre>
+            <code>
+            // ViewModel
+            public class MyViewModel extends ViewModel {
+                private MutableLiveData<String> data;
+    
+                public LiveData<String> getData() {
+                    if (data == null) {
+                        data = new MutableLiveData<String>();
+                        loadData();
+                    }
+                    return data;
+                }
+    
+                private void loadData() {
+                    // Do an asynchronous operation to fetch data.
+                }
+            }
+    
+            // Activity (View)
+            public class MyActivity extends AppCompatActivity {
+                @Override
+                protected void onCreate(Bundle savedInstanceState) {
+                    super.onCreate(savedInstanceState);
+                    setContentView(R.layout.my_activity);
+    
+                    // Get a ViewModel instance
+                    MyViewModel model = new ViewModelProvider(this).get(MyViewModel.class);
+    
+                    // Observe the LiveData, passing in this activity as the LifecycleOwner and the observer.
+                    model.getData().observe(this, data -> {
+                        // Update the UI.
+                    });
+                }
+            }
+            </code>
+        </pre>
+    </div>
 </body>
 </html>

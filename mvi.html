@@ -15,5 +15,64 @@
         <a href="mvi.html">MVI</a>
         <a href="microservices.html">Microservices</a>
       </div>
+      <div>
+        <h1>Архітектура MVI (Model-View-Intent)</h1>
+    <p>Архітектура MVI (Model-View-Intent) - це шаблон проектування, який розділяє бізнес-логіку від інтерфейсу користувача. Це робиться для окремого управління різними аспектами додатка.</p>
+    <h2>Структура MVI</h2>
+    <ul>
+        <li><strong>Модель (Model):</strong> Модель представляє стан додатка. Вона відповідає за збереження, відновлення та обробку даних для додатка.</li>
+        <li><strong>Представлення (View):</strong> Представлення відображає дані, тобто візуалізує модель даних для користувача.</li>
+        <li><strong>Намір (Intent):</strong> Намір представляє дії користувача, які викликають зміни в моделі.</li>
+    </ul>
+    <h2>Переваги MVI</h2>
+    <ul>
+        <li><strong>Поділ відповідальності:</strong> Кожен компонент в архітектурі MVI має свою власну відповідальність, що спрощує управління додатком.</li>
+        <li><strong>Полегшена підтримка:</strong> Оскільки різні частини додатка розроблені незалежно одна від одної, це полегшує підтримку та оновлення додатка.</li>
+        <li><strong>Гнучкість:</strong> Завдяки розділенню на модель, представлення та намір, розробники можуть працювати паралельно на різних частинах додатка без взаємного впливу.</li>
+    </ul>
+        <pre>
+            <code>
+            // State (Model)
+            public class MyState {
+                private String data;
+    
+                public String getData() {
+                    return data;
+                }
+    
+                public void setData(String data) {
+                    this.data = data;
+                }
+            }
+    
+            // View
+            public class MyView extends AppCompatActivity {
+                private MyState state;
+                private PublishSubject<String> intentSubject;
+    
+                @Override
+                protected void onCreate(Bundle savedInstanceState) {
+                    super.onCreate(savedInstanceState);
+                    setContentView(R.layout.my_activity);
+    
+                    state = new MyState();
+                    intentSubject = PublishSubject.create();
+    
+                    // Subscribe to the intents
+                    intentSubject.subscribe(this::handleIntent);
+                }
+    
+                private void handleIntent(String intent) {
+                    // Update the state based on the intent
+                }
+    
+                public void userAction() {
+                    // Emit an intent
+                    intentSubject.onNext("userAction");
+                }
+            }
+            </code>
+        </pre>
+    </div>
 </body>
 </html>

@@ -16,9 +16,68 @@
         <a href="microservices.html">Microservices</a>
       </div>
       <div>
-        <p>
-            
-        </p>
-      </div>
+        <h1>Архітектура MVP (Model-View-Presenter)</h1>
+    <p>Архітектура MVP (Model-View-Presenter) - це шаблон проектування, який розділяє бізнес-логіку від інтерфейсу користувача. Це робиться для окремого управління різними аспектами додатка.</p>
+    <h2>Структура MVP</h2>
+    <ul>
+        <li><strong>Модель (Model):</strong> Модель представляє структуру даних. Вона відповідає за збереження, відновлення та обробку даних для додатка.</li>
+        <li><strong>Представлення (View):</strong> Представлення відображає дані, тобто візуалізує модель даних для користувача.</li>
+        <li><strong>Presenter:</strong> Presenter відповідає за обробку дій користувача та оновлення представлення.</li>
+    </ul>
+    <h2>Переваги MVP</h2>
+    <ul>
+        <li><strong>Поділ відповідальності:</strong> Кожен компонент в архітектурі MVP має свою власну відповідальність, що спрощує управління додатком.</li>
+        <li><strong>Полегшена підтримка:</strong> Оскільки різні частини додатка розроблені незалежно одна від одної, це полегшує підтримку та оновлення додатка.</li>
+        <li><strong>Гнучкість:</strong> Завдяки розділенню на модель, представлення та Presenter, розробники можуть працювати паралельно на різних частинах додатка без взаємного впливу.</li>
+    </ul>
+        <pre>
+            <code>
+            // Contract
+            public interface MyContract {
+                interface View {
+                    void showData(String data);
+                }
+    
+                interface Presenter {
+                    void loadData();
+                }
+            }
+    
+            // View (Activity or Fragment)
+            public class MyView extends AppCompatActivity implements MyContract.View {
+                private MyContract.Presenter presenter;
+    
+                @Override
+                protected void onCreate(Bundle savedInstanceState) {
+                    super.onCreate(savedInstanceState);
+                    setContentView(R.layout.my_activity);
+    
+                    presenter = new MyPresenter(this);
+                    presenter.loadData();
+                }
+    
+                @Override
+                public void showData(String data) {
+                    // Update the UI.
+                }
+            }
+    
+            // Presenter
+            public class MyPresenter implements MyContract.Presenter {
+                private MyContract.View view;
+    
+                public MyPresenter(MyContract.View view) {
+                    this.view = view;
+                }
+    
+                @Override
+                public void loadData() {
+                    // Fetch data and call view.showData(data).
+                }
+            }
+            </code>
+        </pre>
+    </div>
+    
 </body>
 </html>
